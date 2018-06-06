@@ -10,7 +10,6 @@ def new_persona(request):
 
 def save_persona(request):
     form = PersonaForm(data = request.POST )
-
     if form.is_valid():
         form.save()
         persona = Personas.objects.get(Name = form.data['Name'])
@@ -18,7 +17,7 @@ def save_persona(request):
         persona.save()
         return redirect(persona)
     else:
-        return render(request, 'persona.html', {})
+        return render(request, 'persona_new.html', {'form': PersonaForm()})
 
 def view_persona(request, persona_id):
     persona = Personas.objects.get(id = persona_id)

@@ -2,6 +2,8 @@
 
 {% block persona %}
   <form class="" action="{% url 'save_persona' %}" method="POST">
+    {% csrf_token %}
     {{ form.as_p }}
+    <button type="submit" name="button"> enviar</button>
   </form>
 {% endblock %}

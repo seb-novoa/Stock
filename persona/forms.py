@@ -4,16 +4,7 @@ from persona.models import *
 class PersonaForm(forms.ModelForm):
     class Meta:
         model = Personas
-        fields = ('Name', 'Area', 'Puesto',)
-        widgets = {
-
-        }
-
-class PersonaGetForm(forms.ModelForm):
-    class Meta:
-        model = Personas
-        fields  = ('Name', 'Area', 'Puesto',)
-        widgets = ()
+        fields = ('Name', 'Area', 'Puesto')
 
 class AreaForm(forms.ModelForm):
     class Meta:

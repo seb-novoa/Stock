@@ -19,7 +19,7 @@ class Personas(models.Model):
     Name  = models.CharField(max_length = 50)
     Lastname = models.CharField(max_length = 30, null = True)
     MotherLastname = models.CharField(max_length = 30, null = True)
-    Gestor  = models.ManyToManyField('self', null = True)
+    Gestor  = models.ForeignKey('self', on_delete = models.CASCADE, null = True)
     Area    = models.ForeignKey(Areas, on_delete = models.CASCADE)
     Puesto  = models.ForeignKey(Puestos, on_delete = models. CASCADE)
 

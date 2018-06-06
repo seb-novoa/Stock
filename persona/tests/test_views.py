@@ -1,6 +1,7 @@
 from django.test import TestCase
 from persona.models import Areas, Puestos, Personas
 from . import base
+# import pdb; pdb.set_trace()
 
 class PersonaPageTest(TestCase):
     def test_new_persona_renders_persona_new_template(self):
@@ -13,10 +14,20 @@ class NewPersona(TestCase):
         self.client.post('/persona/save/', data = {
             'Name'  : 'Nombre Apellido ApellidoMaterno',
             'Area'  : ar.id,
-            'Puesto': pu.id,
+            'Puesto': pu.id
         })
 
         self.assertEqual(Personas.objects.count(), 1)
 
         new_persona = Personas.objects.first()
         self.assertEqual(new_persona.Name, 'Nombre')
+
+    def test_redirect_after_POST(self):
+        ar, pu = base.initial_Areas_and_Puestos()
+        response = self.client.post('/persona/save/', data = {
+            'Name'  : 'Nombre Apellido ApellidoMaterno',
+            'Area'  : ar.id,
+            'Puesto': pu.id
+        })
+        persona = Personas.objects.all()[0]
+        self.assertRedirects(response, '/persona/%d/' %(persona.id))
