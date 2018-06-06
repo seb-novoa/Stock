@@ -1,0 +1,7 @@
+{% extends 'base_persona.html' %}
+
+{% block persona %}
+  <form class="" action="{% url 'save_persona' %}" method="POST">
+    {{ form.as_p }}
+  </form>
+{% endblock %}

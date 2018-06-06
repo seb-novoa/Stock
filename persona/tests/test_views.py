@@ -1,20 +1,22 @@
 from django.test import TestCase
 from persona.models import Areas, Puestos, Personas
+from . import base
 
-# registrar area y puesto
-def initial_Areas_and_Puestos():
-    ar = Areas.objects.create(Area = 'Area1')
-    pu = Puestos.objects.create(Puesto = 'Puesto1')
-    return ar, pu
+class PersonaPageTest(TestCase):
+    def test_new_persona_renders_persona_new_template(self):
+        response = self.client.get('/persona/new/')
+        self.assertTemplateUsed(response, 'persona_new.html')
 
 class NewPersona(TestCase):
-    def test_name_split_to_get_lastname(self):
-        ar, pu = initial_Areas_and_Puestos()
-        p1 = Personas.objects.create(Name = 'Nombre Apellido', Area = ar, Puesto = pu)
+    def test_saving_a_POST_request(self):
+        ar, pu = base.initial_Areas_and_Puestos()
+        self.client.post('/persona/save/', data = {
+            'Name'  : 'Nombre Apellido ApellidoMaterno',
+            'Area'  : ar.id,
+            'Puesto': pu.id,
+        })
 
-        self.assertEqual(p1.Name, 'Nombre Apellido ApellidoMaterno')
+        self.assertEqual(Personas.objects.count(), 1)
 
-        p1.name_split()
-        self.assertEqual(p1.Name, 'Nombre')
-        self.assertEqual(p1.Lastname, 'Apellido')
-        self.assertEqual(p1.MotherLastname, 'ApellidoMaterno')
+        new_persona = Personas.objects.first()
+        self.assertEqual(new_persona.Name, 'Nombre')
