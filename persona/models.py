@@ -8,6 +8,7 @@ class Puestos(models.Model):
 
 class Personas(models.Model):
     Name  = models.CharField(max_length = 50)
+    Lastname = models.CharField(max_length = 50, null = True)
     Gestor  = models.ManyToManyField('self')
     Area    = models.ForeignKey(Areas, on_delete = models.CASCADE)
     Puesto  = models.ForeignKey(Puestos, on_delete = models. CASCADE)
@@ -15,3 +16,8 @@ class Personas(models.Model):
     @property
     def gestorList(self):
         return list(self.gestor.all())
+
+    def name_split(self):
+        names = str.split(self.Name)
+        self.Name = names[0]
+        self.Lastname = ''.join(names[1:])

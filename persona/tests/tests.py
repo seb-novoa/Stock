@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.urls import resolve
-from .models import Areas, Puestos, Personas
+from persona.models import Areas, Puestos, Personas
 
 from persona.views import persona_page
 from persona.forms import PersonaGetForm

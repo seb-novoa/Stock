@@ -6,6 +6,3 @@ def persona_page(request):
 
 def new_persona(request):
     return render(request, 'persona_new.html', {'form': PersonaForm()})
-
-def algo(request):
-    pass
