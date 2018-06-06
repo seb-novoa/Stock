@@ -9,25 +9,42 @@ class PersonaPageTest(TestCase):
         self.assertTemplateUsed(response, 'persona_new.html')
 
 class NewPersona(TestCase):
-    def test_saving_a_POST_request(self):
+    def valid_person_item(self, Nombre):
         ar, pu = base.initial_Areas_and_Puestos()
-        self.client.post('/persona/save/', data = {
-            'Name'  : 'Nombre Apellido ApellidoMaterno',
+        response = self.client.post('/persona/save/', data = {
+            'Name'  : Nombre,
             'Area'  : ar.id,
             'Puesto': pu.id
         })
+        return response
 
+    def invalid_person_item(self):
+        ar, pu = base.initial_Areas_and_Puestos()
+        response = self.client.post('/persona/save/', data = {
+            'Name'  : '',
+            'Area'  : ar.id,
+            'Puesto': pu.id
+        })
+        return response
+
+    def test_saving_a_POST_request(self):
+        response = self.valid_person_item('Nombre Apellido ApellidoMaterno')
         self.assertEqual(Personas.objects.count(), 1)
 
         new_persona = Personas.objects.first()
         self.assertEqual(new_persona.Name, 'Nombre')
 
     def test_redirect_after_POST(self):
-        ar, pu = base.initial_Areas_and_Puestos()
-        response = self.client.post('/persona/save/', data = {
-            'Name'  : 'Nombre Apellido ApellidoMaterno',
-            'Area'  : ar.id,
-            'Puesto': pu.id
-        })
+        response = self.valid_person_item('Nombre Apellido ApellidoMaterno')
         persona = Personas.objects.all()[0]
         self.assertRedirects(response, '/persona/%d/' %(persona.id))
+
+    def test_invalid_person_items_arent_saved(self):
+        response = self.invalid_person_item()
+        self.assertEqual(Personas.objects.count(), 0)
+
+    def test_for_invalid_input_renders_person_new_template(self):
+        response = self.invalid_person_item()
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'persona_new.html')
