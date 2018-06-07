@@ -6,10 +6,18 @@ class PersonaForm(forms.ModelForm):
         model = Personas
         fields = ('Name', 'Area', 'Puesto')
 
+    def save(self, commit = True):
+        instance = super(PersonaForm, self).save(commit = False)
+        instance.name_split()
+        if commit:
+            instance.save()
+        return instance
+
 class AreaForm(forms.ModelForm):
+    CDC = forms.IntegerField(required = False)
     class Meta:
         model = Areas
-        fields = ('Area', )
+        fields = ('CDC', 'Area', )
 
 
 class PuestosForm(forms.ModelForm):

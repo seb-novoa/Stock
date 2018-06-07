@@ -2,7 +2,7 @@ from django.db import models
 from django.urls import reverse
 
 class Areas(models.Model):
-    CDC  = models.IntegerField(null = True)
+    CDC  = models.IntegerField(null = True, unique = True)
     Area = models.CharField(max_length = 30)
 
     def __str__(self):

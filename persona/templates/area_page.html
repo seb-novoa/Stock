@@ -1,0 +1,10 @@
+{% extends 'base_persona.html' %}
+
+{% block persona %}
+  <form class="" action="{% url 'save_area' %}" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button type="submit" name="button">Guardar</button>
+  </form>
+{% endblock %}
