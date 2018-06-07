@@ -24,14 +24,6 @@ class AreaForm(forms.ModelForm):
             },
         }
 
-    def form_valid(self, form):
-        area = slugify(form.cleaned_data['Area'])
-        try:
-            area = Areas.objects.get(Area = area)
-        except Area.DoesNotExist:
-            raise ValidationError('Esta Área ya está registrada')
-
-
 class PuestoForm(forms.ModelForm):
     class Meta:
         model = Puestos
