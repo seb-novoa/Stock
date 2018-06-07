@@ -3,8 +3,16 @@
 {% block persona %}
   <form class="" action="{% url 'save_area' %}" method="post">
     {% csrf_token %}
-    {{ form.as_p }}
-
+    {{ form.CDC }}
+    {{ form.Area }}
     <button type="submit" name="button">Guardar</button>
   </form>
+
+  {% if form.errors %}
+    <ol>
+      {% for error in form.errors %}
+        <li>El campo {{ error|escape }} ya esta registrado</li>
+      {% endfor %}
+    </ol>
+  {% endif %}
 {% endblock %}

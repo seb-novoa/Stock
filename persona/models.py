@@ -3,14 +3,14 @@ from django.urls import reverse
 
 class Areas(models.Model):
     CDC  = models.IntegerField(null = True, unique = True)
-    Area = models.CharField(max_length = 30)
+    Area = models.CharField(max_length = 30, unique= True)
 
     def __str__(self):
         return self.Area
 
 
 class Puestos(models.Model):
-    Puesto = models.CharField(max_length = 30)
+    Puesto = models.CharField(max_length = 30, unique = True)
 
     def __str__(self):
         return self.Puesto

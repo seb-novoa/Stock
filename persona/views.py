@@ -28,6 +28,6 @@ def save_area(request):
     form = AreaForm(data = request.POST)
     if form.is_valid():
         form.save()
-        return render(request, 'persona.html', {})
+        return redirect('persona_page')
     else:
-        return render (request, 'area_page.html', {'form' : AreaForm()})
+        return render (request, 'area_page.html', {'form' : form })

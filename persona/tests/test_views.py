@@ -92,8 +92,19 @@ class NewArea(TestCase):
 
     def test_redirect_after_POST(self):
         response = self.valid_area_item(1, 'Area1')
-        self.assertTemplateUsed(response, 'persona.html')
+        self.assertRedirects(response, '/persona/')
 
     def test_invalid_area_items_arent_saved(self):
         response = self.invalid_area_item()
         self.assertEqual(Areas.objects.count(), 0)
+
+    def test_duplicate_item_validation_errors_up_on_area_page(self):
+        area1 = self.valid_area_item(1 , 'Area1')
+        response = self.valid_area_item(1 , 'Area1')
+        expected_error_Area = 'El campo Area ya esta registrado'
+        expected_error_CDC = 'El campo CDC ya esta registrado'
+
+        self.assertContains(response, expected_error_Area)
+        self.assertContains(response, expected_error_CDC)
+        self.assertTemplateUsed(response, 'area_page.html')
+        self.assertEqual(Areas.objects.count(), 1)
