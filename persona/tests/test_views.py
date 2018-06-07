@@ -12,6 +12,10 @@ class PersonaPageTest(TestCase):
         response = self.client.get('/persona/area/')
         self.assertTemplateUsed(response, 'area_page.html')
 
+    def test_new_puesto_renders_puesto_new_template(self):
+        response = self.client.get('/persona/puesto/')
+        self.assertTemplateUsed(response, 'puesto_page.html')
+
 class NewPersona(TestCase):
     def valid_person_item(self, Nombre):
         ar, pu = base.initial_Areas_and_Puestos()
@@ -108,3 +112,37 @@ class NewArea(TestCase):
         self.assertContains(response, expected_error_CDC)
         self.assertTemplateUsed(response, 'area_page.html')
         self.assertEqual(Areas.objects.count(), 1)
+
+class NewPuesto(TestCase):
+    def valid_puesto_item(self, Puesto):
+        response = self.client.post('/persona/puesto/save/', data = {
+            'Puesto' : Puesto
+        })
+        return response
+
+    def test_redirect_after_POST(self):
+        response = self.valid_puesto_item('Puesto1')
+        self.assertRedirects(response, '/persona/')
+
+    def test_saving_a_POST_request(self):
+        p1 = self.valid_puesto_item('Puesto1')
+        self.assertEqual(Puestos.objects.count(), 1)
+
+    def test_dont_save_the_same(self):
+        p1 = self.valid_puesto_item('')
+        self.assertEqual(Puestos.objects.count(), 0)
+
+    def test_dont_save_the_same(self):
+        p1 = self.valid_puesto_item('Puesto1')
+        p2 = self.valid_puesto_item('Puesto1')
+
+        self.assertEqual(Puestos.objects.count(), 1)
+
+    def test_duplicate_item_validation_errors_up_on_puesto_page(self):
+        p1 = self.valid_puesto_item('Puesto1')
+        response = self.valid_puesto_item('Puesto1')
+        expected_error = 'El Puesto ya ha sido registrado'
+
+        self.assertContains(response, expected_error)
+        self.assertTemplateUsed(response, 'puesto_page.html')
+        self.assertEqual(Puestos.objects.count(), 1)

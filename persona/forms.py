@@ -32,7 +32,7 @@ class AreaForm(forms.ModelForm):
             raise ValidationError('Esta Área ya está registrada')
 
 
-class PuestosForm(forms.ModelForm):
+class PuestoForm(forms.ModelForm):
     class Meta:
         model = Puestos
         fields = ('Puesto', )

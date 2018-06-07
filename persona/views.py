@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from persona.forms import PersonaForm, AreaForm
+from persona.forms import PersonaForm, AreaForm, PuestoForm
 from persona.models import Personas
 
 def persona_page(request):
@@ -31,3 +31,15 @@ def save_area(request):
         return redirect('persona_page')
     else:
         return render (request, 'area_page.html', {'form' : form })
+
+# Puestos
+def puesto_page(request):
+    return render(request, 'puesto_page.html', {'form' : PuestoForm()})
+
+def save_puesto(request):
+    form = PuestoForm(data = request.POST)
+    if form.is_valid():
+        form.save()
+        return redirect('persona_page')
+    else:
+        return render(request, 'puesto_page.html', {'form' : form})

@@ -1,0 +1,14 @@
+{% extends 'base_persona.html' %}
+
+{% block persona %}
+  <form class="" action="{% url 'save_puesto' %}" method="post">
+    {{ form.Puesto }}
+  </form>
+  {% if form.errors %}
+    <ol>
+      {% for error in form.errors %}
+        <li>El {{ error|escape }} ya ha sido registrado</li>
+      {% endfor %}
+    </ol>
+  {% endif %}
+{% endblock %}

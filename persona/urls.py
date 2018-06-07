@@ -11,5 +11,9 @@ urlpatterns = [
 
     # Areas
     path('area/', area_page, name = "area_page"),
-    path('area/save/', save_area, name = "save_area")
+    path('area/save/', save_area, name = "save_area"),
+
+    # Puestos
+    path('puesto/', puesto_page, name = "puesto_page"),
+    path('puesto/save/', save_puesto, name = "save_puesto"),
 ]
