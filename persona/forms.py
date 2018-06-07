@@ -15,7 +15,6 @@ class PersonaForm(forms.ModelForm):
 
 class AreaForm(forms.ModelForm):
     CDC = forms.IntegerField(required = False)
-    Area = models.CharField(error_messages={'unique': u'My custom message'})
     class Meta:
         model = Areas
         fields = ('CDC', 'Area', )
