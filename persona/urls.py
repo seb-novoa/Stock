@@ -16,4 +16,9 @@ urlpatterns = [
     # Puestos
     path('puesto/', puesto_page, name = "puesto_page"),
     path('puesto/save/', save_puesto, name = "save_puesto"),
+
+    # Editar y eliminar Areas y Puestos
+    path('editar/', editar_area_puesto, name = 'editar_area_puesto'),
+    path('editar/area/', editar_area, name = 'editar_area'),
+    path('editar/area/<int:area_id>/', save_edit_area, name = 'save_edit_area')
 ]

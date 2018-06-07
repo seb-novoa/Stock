@@ -16,6 +16,11 @@ class PersonaPageTest(TestCase):
         response = self.client.get('/persona/puesto/')
         self.assertTemplateUsed(response, 'puesto_page.html')
 
+    def test_edit_area_puesto(self):
+        response = self.client.get('/persona/editar/')
+        self.assertTemplateUsed(response, 'edit_area_puesto.html')
+
+
 class NewPersona(TestCase):
     def valid_person_item(self, Nombre):
         ar, pu = base.initial_Areas_and_Puestos()
@@ -112,6 +117,26 @@ class NewArea(TestCase):
         self.assertContains(response, expected_error_CDC)
         self.assertTemplateUsed(response, 'area_page.html')
         self.assertEqual(Areas.objects.count(), 1)
+
+    def test_edit_area_search_an_area_objects(self):
+        self.valid_area_item(1, 'Area1')
+        response = self.client.post('/persona/editar/area/', data = {
+            'Area' : 'Area1'
+        })
+
+        self.assertTemplateUsed(response, 'edit_area.html')
+        self.assertContains(response, 'Area1')
+
+    def test_edit_area_save_changes(self):
+        self.valid_area_item(1, 'Area1')
+        response = self.client.post('/persona/editar/area/1', data = {
+            'CDC' : 2,
+            'Area': 'Area2'
+        })
+
+        area = Areas.objects.first()
+        self.assertEqual(area.Area, 'Area2')
+
 
 class NewPuesto(TestCase):
     def valid_puesto_item(self, Puesto):

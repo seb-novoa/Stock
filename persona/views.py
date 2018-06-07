@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from persona.forms import PersonaForm, AreaForm, PuestoForm
-from persona.models import Personas
+from persona.models import Personas, Areas
 
 def persona_page(request):
     return render(request, 'persona.html', {})
@@ -43,3 +43,27 @@ def save_puesto(request):
         return redirect('persona_page')
     else:
         return render(request, 'puesto_page.html', {'form' : form})
+
+# Editar areas y puestos
+
+def editar_area_puesto(request):
+    return render(request, 'edit_area_puesto.html', {'AreaForm' : AreaForm})
+
+def editar_area(request):
+    form = AreaForm(data = request.POST)
+    area = Areas.objects.get(Area = form.data['Area'])
+    formInstance = AreaForm(instance = area)
+    return render(request, 'edit_area.html', {'formInstance' : formInstance})
+
+def save_edit_area(request, area_id):
+    form = AreaForm(data = requestPost)
+    if form.is_valid():
+        form.save()
+        return redirect('editar_area_puesto')
+
+    else:
+         return render(request, 'edit_area.html', {'formInstance' : form})
+
+
+def edit_puesto(request):
+    pass

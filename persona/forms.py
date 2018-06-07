@@ -18,10 +18,10 @@ class AreaForm(forms.ModelForm):
     class Meta:
         model = Areas
         fields = ('CDC', 'Area', )
-        error_massages = {
-            'my_unique_field' : {
-                'unique' : 'Esta campo ya esta registrado'
-            },
+        widgets = {
+            'Area' : forms.fields.TextInput(attrs = {
+                'placeholder' : 'Nombre del área'
+            })
         }
 
 class PuestoForm(forms.ModelForm):

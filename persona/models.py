@@ -8,6 +8,8 @@ class Areas(models.Model):
     def __str__(self):
         return self.Area
 
+    def get_absolute_url(self):
+        return reverse('edit_area', args=[self.id])
 
 class Puestos(models.Model):
     Puesto = models.CharField(max_length = 30, unique = True)

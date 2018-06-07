@@ -1,0 +1,9 @@
+{% extends 'base_persona.html'%}
+
+{% block persona %}
+  <form class="" action="{% url 'editar_area'%}" method="post">
+    {% csrf_token %}
+    {{ AreaForm.Area }}
+  </form>
+
+{% endblock %}
