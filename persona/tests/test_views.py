@@ -129,13 +129,13 @@ class NewArea(TestCase):
 
     def test_edit_area_save_changes(self):
         self.valid_area_item(1, 'Area1')
-        response = self.client.post('/persona/editar/area/1', data = {
+        response = self.client.post('/persona/editar/area/1/', data = {
             'CDC' : 2,
-            'Area': 'Area2'
+            'Area': 'Area1'
         })
 
         area = Areas.objects.first()
-        self.assertEqual(area.Area, 'Area2')
+        self.assertEqual(area.CDC, 2)
 
 
 class NewPuesto(TestCase):

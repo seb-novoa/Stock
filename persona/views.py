@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from persona.forms import PersonaForm, AreaForm, PuestoForm
 from persona.models import Personas, Areas
 
@@ -53,12 +53,14 @@ def editar_area(request):
     form = AreaForm(data = request.POST)
     area = Areas.objects.get(Area = form.data['Area'])
     formInstance = AreaForm(instance = area)
-    return render(request, 'edit_area.html', {'formInstance' : formInstance})
+    return render(request, 'edit_area.html', {'area_id':area.id , 'formInstance' : formInstance})
 
-def save_edit_area(request, area_id):
-    form = AreaForm(data = requestPost)
+def save_edit_area(request, area_id = None):
+    instance = get_object_or_404(Areas, id = area_id)
+    form = AreaForm(request.POST or None, instance = instance )
     if form.is_valid():
-        form.save()
+        instance = form.save(commit = False)
+        instance.save()
         return redirect('editar_area_puesto')
 
     else:

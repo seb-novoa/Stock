@@ -1,8 +1,16 @@
 {% extends 'base_persona.html' %}
 
 {% block persona %}
-  <form class="" action="index.html" method="post">
+  <form class="" action="{% url 'save_edit_area' area_id %}" method="post">
     {% csrf_token %}
     {{ formInstance.as_p }}
+    <button type="submit" name="button">Guardar</button>
   </form>
+  {% if formInstance.errors %}
+    <ol>
+      {% for error in formInstance.errors %}
+        <li>El campo {{ error|escape }} ya esta registrado</li>
+      {% endfor %}
+    </ol>
+  {% endif %}
 {% endblock %}
